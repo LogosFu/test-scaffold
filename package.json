@@ -3,20 +3,27 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel index.html",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --reporter json",
+    "cypress:test": "concurrently 'yarn start' 'yarn cypress:run'",
+    "cypress": "./run_cypress.sh"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^5.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.4",
     "@babel/core": "^7.11.0",
     "@babel/preset-env": "^7.11.0",
-    "@babel/preset-react": "^7.10.4"
+    "@babel/preset-react": "^7.10.4",
+    "cypress": "5.2.0",
+    "parcel-bundler": "^1.12.4"
   }
 }
