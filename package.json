@@ -5,7 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "babel src -d lib",
+    "coverage": "lerna run coverage && git add **/package.json && git diff-index --quiet HEAD || git commit -m \"test(unit): update coverage threshold CASABASEA-1246\" --no-verify",
+    "test": "jest --coverage",
     "start": "parcel index.html",
+    "prepush": " yarn test && yarn coverage",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --reporter json",
     "cypress:test": "concurrently 'yarn start' 'yarn cypress:run'",
@@ -16,14 +20,34 @@
   "license": "ISC",
   "dependencies": {
     "concurrently": "^5.3.0",
+    "cross-env": "^7.0.2",
+    "husky": "^4.3.0",
+    "jest-coverage-ratchet": "^0.2.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.0",
-    "@babel/preset-env": "^7.11.0",
+    "@babel/plugin-syntax-jsx": "^7.10.4",
+    "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
+    "@testing-library/react": "^11.0.4",
+    "babel-jest": "^26.3.0",
     "cypress": "5.2.0",
-    "parcel-bundler": "^1.12.4"
+    "jest": "^26.4.2",
+    "parcel-bundler": "^1.12.4",
+    "react-test-renderer": "^16.13.1",
+    "require": "^2.4.20"
+  },
+  "husky": {
+    "hooks": {
+
+    }
+  },
+  "hooks": {
+    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+    "post-commit": "git update-index --again",
+    "pre-commit": "lint-staged",
+    "pre-push": "yarn lint && yarn test && yarn coverage"
   }
 }
