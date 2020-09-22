@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "lint": "eslint --ext .js --ext .jsx src",
+    "lint-staged": "eslint --ext .js --ext .jsx src",
     "build": "babel src -d lib",
     "coverage": "lerna run coverage && git add **/package.json && git diff-index --quiet HEAD || git commit -m \"test(unit): update coverage threshold CASABASEA-1246\" --no-verify",
     "test": "jest --coverage",
@@ -23,9 +23,15 @@
     "babel-eslint": "^10.1.0",
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.2",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react-hooks": "^4.1.2",
     "husky": "^4.3.0",
     "jest-coverage-ratchet": "^0.2.3",
+    "prettier": "^2.1.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
@@ -46,12 +52,33 @@
     "require": "^2.4.20"
   },
   "husky": {
-    "hooks": {}
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn lint && yarn test && yarn coverage"
+    }
   },
-  "hooks": {
-    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-    "post-commit": "git update-index --again",
-    "pre-commit": "lint-staged",
-    "pre-push": "yarn lint && yarn test && yarn coverage"
+  "lint-staged": {
+    "src/*.{js,jsx,mjs,ts,tsx}": [
+      "node_modules/.bin/prettier --write",
+      "node_modules/.bin/eslint --fix",
+      "git add"
+    ],
+    "src/*.{css,scss,less,json,html,md,markdown}": [
+      "node_modules/.bin/prettier --write",
+      "git add"
+    ]
+  },
+  "jest": {
+    "coverageReporters": [
+      "json-summary","text"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 47.61,
+        "statements": 47.63,
+        "functions": 29.68,
+        "branches": 31.16
+      }
+    }
   }
 }
