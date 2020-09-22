@@ -7,7 +7,6 @@
   "scripts": {
     "lint-staged": "eslint --ext .js --ext .jsx src",
     "build": "babel src -d lib",
-    "coverage": "yarn run coverage && git add **/package.json && git diff-index --quiet HEAD || git commit -m \"test(unit): update coverage threshold CASABASEA-1246\" --no-verify",
     "test": "jest --coverage",
     "start": "parcel index.html",
     "prepush": "yarn lint && yarn test && yarn coverage",
@@ -57,7 +56,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "yarn test && yarn coverage &&yarn jest-coverage-ratchet"
+      "pre-push": "yarn test &&yarn jest-coverage-ratchet"
     }
   },
   "lint-staged": {
