@@ -7,7 +7,7 @@
   "scripts": {
     "lint-staged": "eslint --ext .js --ext .jsx src",
     "build": "babel src -d lib",
-    "coverage": "lerna run coverage && git add **/package.json && git diff-index --quiet HEAD || git commit -m \"test(unit): update coverage threshold CASABASEA-1246\" --no-verify",
+    "coverage": "yarn run coverage && git add **/package.json && git diff-index --quiet HEAD || git commit -m \"test(unit): update coverage threshold CASABASEA-1246\" --no-verify",
     "test": "jest --coverage",
     "start": "parcel index.html",
     "prepush": "yarn lint && yarn test && yarn coverage",
@@ -40,6 +40,8 @@
     "@babel/plugin-syntax-jsx": "^7.10.4",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@testing-library/react": "^11.0.4",
     "babel-jest": "^26.3.0",
     "cypress": "5.2.0",
@@ -47,6 +49,7 @@
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.20.6",
     "jest": "^26.4.2",
+    "lint-staged": "^10.4.0",
     "parcel-bundler": "^1.12.4",
     "react-test-renderer": "^16.13.1",
     "require": "^2.4.20"
@@ -54,7 +57,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "yarn lint && yarn test && yarn coverage"
+      "pre-push": "yarn test && yarn coverage &&yarn jest-coverage-ratchet"
     }
   },
   "lint-staged": {
@@ -70,14 +73,15 @@
   },
   "jest": {
     "coverageReporters": [
-      "json-summary","text"
+      "json-summary",
+      "text"
     ],
     "coverageThreshold": {
       "global": {
-        "lines": 47.61,
-        "statements": 47.63,
-        "functions": 29.68,
-        "branches": 31.16
+        "lines": 100,
+        "statements": 100,
+        "functions": 100,
+        "branches": 100
       }
     }
   }
